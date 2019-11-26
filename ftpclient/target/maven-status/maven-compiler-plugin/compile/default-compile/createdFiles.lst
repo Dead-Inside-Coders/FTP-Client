@@ -1,6 +1,0 @@
-com\formspackage\ClientForm.class
-com\datepackage\DateStore.class
-com\ftpclient\Actions.class
-com\ftpclient\Connection.class
-com\formspackage\Controller.class
-com\formspackage\StartController.class
