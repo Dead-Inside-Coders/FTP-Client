@@ -18,7 +18,7 @@
   <component name="ProjectId" id="1U6wGlSqIYtpHCkGU43XnezKRFv" />
   <component name="PropertiesComponent">
     <property name="jdk.selected.JAVA_MODULE" value="11" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ftpclient/src/main/java" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -41,7 +41,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ClientForm (1)">
+    <configuration name="ClientForm (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.application.ClientForm" />
+      <module name="ftpclient" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.application.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ClientForm" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.formspackage.ClientForm" />
       <module name="ftpclient" />
@@ -57,6 +70,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ClientForm (1)" />
         <item itemvalue="Application.ClientForm" />
       </list>
     </recent_temporary>

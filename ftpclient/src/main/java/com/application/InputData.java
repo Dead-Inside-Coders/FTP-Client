@@ -1,14 +1,21 @@
-package com.datepackage;
+package com.application;
 
-import java.util.ArrayList;
-
-public class DateStore
+public class InputData
 {
-    //Надо было все статическим делать ((( блин ((
     private String serverdate;
     private String userdate;
     private String passwordate;
-    private ArrayList<String> logs = new ArrayList<>();
+
+    private static InputData instance = null;
+
+    public static InputData getInstance() {
+        if (instance == null) {
+            instance = new InputData();
+        }
+        return instance;
+    }
+
+    private InputData() { }
 
     public String getPasswordate() {
         return passwordate;
@@ -34,8 +41,6 @@ public class DateStore
         return serverdate;
     }
 
-    public ArrayList<String> getLogs() { return logs; }
-    public void addEventToLogs(String event) { logs.add(event); }
-    public void clearLogs(){logs.clear();}
+
 
 }

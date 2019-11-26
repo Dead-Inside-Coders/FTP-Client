@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="279.0" prefWidth="397.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.formspackage.StartController">
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="279.0" prefWidth="397.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.StartController">
    <children>
       <Button fx:id="connectionbutton" layoutX="135.0" layoutY="213.0" mnemonicParsing="false" onAction="#connect" prefHeight="61.0" prefWidth="127.0" text="Подключиться">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField fx:id="server" layoutX="171.0" layoutY="54.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите данные сервера " text="s27.host-food.ru" />
-      <TextField fx:id="user" layoutX="171.0" layoutY="108.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите имя пользователя" text="h143440" />
+      <TextField fx:id="server" layoutX="171.0" layoutY="54.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите данные сервера " text="localhost" />
+      <TextField fx:id="user" layoutX="171.0" layoutY="108.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите имя пользователя" text="ftp" />
       <Label layoutX="95.0" layoutY="14.0" text="Подключение к серверу ">
          <font>
             <Font size="18.0" />
@@ -36,6 +32,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="171.0" layoutY="165.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите пароль" text="PZ6vkke9k" />
+      <PasswordField fx:id="password" layoutX="171.0" layoutY="165.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите пароль" text="ftp" />
    </children>
 </AnchorPane>

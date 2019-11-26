@@ -1,15 +1,14 @@
-package com.formspackage;
+package com.application;
 
+import com.apacheftp.FtpClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import com.ftpclient.Connection;
 
 public class StartController
 {
@@ -19,31 +18,31 @@ public class StartController
     private TextField user;
     @FXML
     private PasswordField password;
-    @FXML
-    private Button connectionbutton;
 
+    private InputData inputData;
 
     @FXML
-    private void connect(ActionEvent event)throws Exception
+    private void connect(ActionEvent event) throws Exception
     {
+        inputData = InputData.getInstance();
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String serverText = server.getText();
         String userText = user.getText();
         String passwordText = password.getText();
+
         if(!serverText.equals("") && !userText.equals("") && !passwordText.equals(""))
         {
-            if(new Connection(serverText,userText,passwordText).connect())
+            if(new FtpClient().connect(serverText,userText,passwordText))
             {
-
-                ClientForm.dateStore.setServerdate(serverText);
-                ClientForm.dateStore.setUserdate(userText);
-                ClientForm.dateStore.setPasswordate(passwordText);
-                Parent root = FXMLLoader.load(getClass().getResource("StartConfig.fxml"));
+                inputData.setServerdate(serverText);
+                inputData.setUserdate(userText);
+                inputData.setPasswordate(passwordText);
+                Parent root = FXMLLoader.load(getClass().getResource("Config.fxml"));
                 ClientForm.primaryStage.close();
                 ClientForm.primaryStage.setScene(new Scene(root));
                 ClientForm.primaryStage.setTitle("Работа с FTP");
                 ClientForm.primaryStage.show();
-
             }
             else
             {

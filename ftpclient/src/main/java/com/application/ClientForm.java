@@ -1,6 +1,5 @@
-package com.formspackage;
+package com.application;
 
-import com.datepackage.DateStore;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +11,7 @@ import java.io.IOException;
 
 public class ClientForm extends Application {
 
-    public static DateStore dateStore = new DateStore();
+    //public static InputData inputData = InputData.getInstance();
     public static Stage primaryStage;
     public static void main(String[] args) {
         launch(args);

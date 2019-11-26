@@ -1,23 +1,20 @@
-package com.formspackage;
+package com.application;
 
-import com.ftpclient.Actions;
-import com.ftpclient.Connection;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import javafx.collections.ObservableList;
+import com.apacheftp.FtpClient;
+import com.interfaces.FtpService;
+import com.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Controller {
 
@@ -39,11 +36,13 @@ public class Controller {
     // Модель для выбранных файлов
     private MultipleSelectionModel<String> listFilesSelectionModel;
     // Объект класса операций с файлами
-    private Actions actions;
+    private FtpService ftpService;
     // Error Alert
     private Alert alert;
     // Information Alert
     private Alert successAlert;
+
+    private InputData inputData;
 
     public Controller() {
         init();
@@ -51,19 +50,18 @@ public class Controller {
 
     private void init()
     {
-        // Объект подключения
-        Connection connection = new Connection(ClientForm.dateStore.getServerdate(), ClientForm.dateStore.getUserdate(),
-                ClientForm.dateStore.getPasswordate());
+        inputData = InputData.getInstance();
+
+        ftpService = new FtpClient();
 
         alert = new Alert(Alert.AlertType.ERROR);
         successAlert = new Alert(Alert.AlertType.INFORMATION);
 
         listOfItems = FXCollections.observableArrayList();
 
-        actions = new Actions(connection.ftpsClient);
-
         try {
-            isConnected = connection.connect();
+            isConnected = ftpService.connect(inputData.getServerdate(), inputData.getUserdate(),
+                    inputData.getPasswordate());;
         }
         catch (IOException ex) {
             alert.setTitle("Ошибка");
@@ -79,7 +77,7 @@ public class Controller {
             listOfItems.clear();
             listOfItems.clear();
              
-            listOfItems.addAll(actions.listNameOfFiles());
+            listOfItems.addAll(ftpService.listNameOfFiles());
         } catch (Exception ex) {
             alert.setTitle("Ошибка");
             alert.setContentText("Не удалось получить список файлов");
@@ -99,7 +97,7 @@ public class Controller {
 
         try {
             listOfItems.clear();
-            listOfItems.addAll(actions.listNameOfFiles(path));
+            listOfItems.addAll(ftpService.listNameOfFiles(path));
         } catch (Exception ex) {
             alert.setTitle("Ошибка");
             alert.setContentText("Не удалось получить список файлов");
@@ -147,7 +145,7 @@ public class Controller {
 
         if(file.createNewFile()) // if possible create a such file
         {
-            actions.downloadSingleFile(selectedItem, Path);
+            ftpService.downloadSingleFile(selectedItem, Path);
             successAlert.setTitle("Инфо");
             successAlert.setContentText("Файл успешно скачан"); 
             successAlert.showAndWait();
@@ -168,7 +166,7 @@ public class Controller {
 
         try
         {
-            actions.uploadSingleFile(file.getPath());
+            ftpService.uploadSingleFile(file.getPath());
             successAlert.setTitle("Инфо");
             successAlert.setContentText("Файл успешно загружен");
             successAlert.showAndWait();
@@ -192,7 +190,7 @@ public class Controller {
     public void getLogs()
     {
         successAlert.setTitle("Логи");
-        successAlert.setContentText(ClientForm.dateStore.getLogs().toString());
+        successAlert.setContentText(Logger.getInstance().getLogs().toString());
         successAlert.showAndWait();
     }
 }
