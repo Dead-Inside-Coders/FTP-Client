@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="30540afa-4bda-4bfc-a195-3292c1417e45" name="Default Changelist" comment="" />
+    <list default="true" id="30540afa-4bda-4bfc-a195-3292c1417e45" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ftpclient/src/main/java/com/ownftp/FTPLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/ftpclient/src/main/java/com/ownftp/CommandBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ftpclient/src/main/java/com/ownftp/MyFtpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/ftpclient/src/main/java/com/ownftp/MyFtpClient.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +21,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
@@ -24,8 +33,9 @@
   </component>
   <component name="ProjectId" id="1U6wGlSqIYtpHCkGU43XnezKRFv" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="11" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ftpclient/src/main/java" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/FTP-master" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -81,6 +91,30 @@
         <item itemvalue="Application.ClientForm" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="30540afa-4bda-4bfc-a195-3292c1417e45" name="Default Changelist" comment="" />
+      <created>1574839808113</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574839808113</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FTP_Client$ClientForm.ic" NAME="ClientForm Coverage Results" MODIFIED="1574692932276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
