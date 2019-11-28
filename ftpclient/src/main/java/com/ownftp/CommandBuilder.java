@@ -20,7 +20,6 @@ public class CommandBuilder
         }
         return instance;
     }
-
     private boolean connected;
     private BufferedReader in;
     private BufferedWriter out;
@@ -31,12 +30,17 @@ public class CommandBuilder
 
     public void disconnect(){ this.connected=false; }
 
-    public boolean connect(String id, String passwd){
-        try {
+
+
+    public boolean connect(String id, String passwd)
+    {
+        try
+        {
             if(!command("USER "+id).startsWith("331 ")) return false;
             if(!command("PASS "+passwd).startsWith("230 ")) return false;
 
-            if(isConnected()){
+            if(isConnected())
+            {
                 this.connected=false;
                 logger.addEventToLogs("Disconnected");
             }
@@ -55,10 +59,11 @@ public class CommandBuilder
         List<String> list=new ArrayList<>();
 
         if(this.type!=Type.A) setMode(Type.A);
-        Socket sock=PASV();
+        Socket sock = PASV();
         if(sock==null) return list;
 
-        try {
+        try
+        {
             BufferedReader read = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             if(!command("MLSD "+path).startsWith("150")) return list;
 
@@ -66,7 +71,8 @@ public class CommandBuilder
 
             String str = read.readLine();
 
-            while(str!=null){
+            while(str!=null)
+            {
                 file = parseLine(str);
                 list.add(file);
                 str=read.readLine();
@@ -87,10 +93,11 @@ public class CommandBuilder
         return this.type;
     }
 
-    public void setInputStream(InputStream in){
+    public synchronized void setInputStream(InputStream in)
+    {
         try {
             if(this.in!=null) this.in.close();
-            this.in=new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            this.in=new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         } catch (UnsupportedEncodingException e) {
             System.err.println("WTF?");
         } catch (IOException e) {
@@ -98,13 +105,14 @@ public class CommandBuilder
         }
     }
 
-    public void setOutputStream(OutputStream out){
+    public synchronized void setOutputStream(OutputStream out){
         try {
             if(this.out!=null) this.out.close();
-            this.out=new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+            this.out=new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
         } catch (UnsupportedEncodingException e) {
             System.err.println("WTF?");
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
@@ -121,22 +129,27 @@ public class CommandBuilder
         return line.substring(indxF+name.length()+1, indxL);
     }
 
-    private Socket PASV(){
+    private Socket PASV()
+    {
         Socket pasvSocket = null;
         String log;
 
-        try {
+        try
+        {
             log=command("PASV");
 
-            if(log.startsWith("227")){
-                String[] tab=log.substring(log.indexOf("(")+1, log.indexOf(")")).split(",");
+            if(log.startsWith("227"))
+            {
+                String[] tab = log.substring(log.indexOf("(")+1, log.indexOf(")")).split(",");
                 String host=tab[0]+"."+tab[1]+"."+tab[2]+"."+tab[3];
                 int port=(Integer.parseInt(tab[4])<<8)+Integer.parseInt(tab[5]);
 
-                pasvSocket=new Socket(host, port);
+                pasvSocket = new Socket(host, port);
                 logger.addEventToLogs(log);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
@@ -144,8 +157,10 @@ public class CommandBuilder
     }
 
     private boolean setMode(Type type){
-        try {
-            if(command("TYPE "+type).startsWith("200")){
+        try
+        {
+            if(command("TYPE "+type).startsWith("200"))
+            {
                 this.type=type;
                 return true;
             }

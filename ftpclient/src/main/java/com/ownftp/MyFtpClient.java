@@ -24,22 +24,23 @@ public class MyFtpClient implements FtpService {
 
             Socket socket = new Socket(hostAddress, PORT);
 
+
             read =new BufferedReader(new InputStreamReader(socket.getInputStream()));
             read.readLine();
 
             commandBuilder.setInputStream(socket.getInputStream());
             commandBuilder.setOutputStream(socket.getOutputStream());
-
             return commandBuilder.connect(login, password);
 
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         } finally {
-            if (read != null) {
+            if (read != null)
+            {
                 try {
-                    read.close();
-                } catch (IOException e) {
+                 //   read.close();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -53,7 +54,8 @@ public class MyFtpClient implements FtpService {
     }
 
     @Override
-    public List<String> listNameOfFiles() throws IOException {
+    public List<String> listNameOfFiles() throws IOException
+    {
         return commandBuilder.isConnected() ? commandBuilder.getFiles("/") : null;
     }
 
