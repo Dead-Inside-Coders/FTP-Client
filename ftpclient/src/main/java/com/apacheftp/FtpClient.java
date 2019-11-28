@@ -8,6 +8,7 @@ import org.apache.commons.net.ftp.FTPSClient;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class FtpClient implements FtpService {
 
@@ -42,13 +43,13 @@ public class FtpClient implements FtpService {
         System.out.println("Соединение разорвано!");
     }
 
-    public ArrayList<String> listNameOfFiles() throws IOException  {
+    public List<String> listNameOfFiles() throws IOException  {
 
         Logger.getInstance().addEventToLogs("Получен список файлов");
         return new ArrayList<>(Arrays.asList(ftpsClient.listNames()));
     }
 
-    public ArrayList<String> listNameOfFiles(String path) throws IOException  {
+    public List<String> listNameOfFiles(String path) throws IOException  {
         Logger.getInstance().addEventToLogs("Получен список файлов");
         return new ArrayList<>(Arrays.asList(ftpsClient.listNames(path)));
     }

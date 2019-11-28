@@ -7,18 +7,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyFtpClient implements FtpService {
 
-    private Socket socket;
+    private Socket sock;
     private final int PORT = 21;
     CommandBuilder commandBuilder = CommandBuilder.getInstance();
 
     @Override
     public boolean connect(String hostAddress, String login, String password) throws IOException {
+
         BufferedReader read = null;
+
         try {
-            Socket socket=new Socket(hostAddress, PORT);
+
+            Socket socket = new Socket(hostAddress, PORT);
 
             read =new BufferedReader(new InputStreamReader(socket.getInputStream()));
             read.readLine();
@@ -42,19 +46,20 @@ public class MyFtpClient implements FtpService {
         }
     }
 
+
     @Override
     public void disconnect() throws IOException {
-
+        commandBuilder.disconnect();
     }
 
     @Override
-    public ArrayList<String> listNameOfFiles() throws IOException {
-        return null;
+    public List<String> listNameOfFiles() throws IOException {
+        return commandBuilder.isConnected() ? commandBuilder.getFiles("/") : null;
     }
 
     @Override
-    public ArrayList<String> listNameOfFiles(String path) throws IOException {
-        return null;
+    public List<String> listNameOfFiles(String path) throws IOException {
+        return commandBuilder.isConnected() ? commandBuilder.getFiles(path) : null;
     }
 
     @Override
