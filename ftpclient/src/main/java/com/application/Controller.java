@@ -6,13 +6,18 @@ import com.logging.Logger;
 import com.ownftp.MyFtpClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +33,6 @@ public class Controller {
     // Кнопка загрузки файлов на сервер
     @FXML
     private Button uploadButton;
-    // Переменная состояния подключения
-    private boolean isConnected;
     // Папка, куда скачиваются файлы с FTP
     private String savePath;
     //Список файлов, которые добавляются в ListView
@@ -43,7 +46,6 @@ public class Controller {
     // Information Alert
     private Alert successAlert;
 
-    private InputData inputData;
 
     public Controller() {
         init();
@@ -51,20 +53,13 @@ public class Controller {
 
     private void init()
     {
-        inputData = InputData.getInstance();
-
-        ftpService = new MyFtpClient();
-
+        ftpService =  MyFtpClient.getInstance();
         alert = new Alert(Alert.AlertType.ERROR);
         successAlert = new Alert(Alert.AlertType.INFORMATION);
-
         listOfItems = FXCollections.observableArrayList();
 
-        try {
-            isConnected = ftpService.connect(inputData.getServerdate(), inputData.getUserdate(),
-                    inputData.getPasswordate());;
-        }
-        catch (IOException ex) {
+        if(!ftpService.isConnect())
+        {
             alert.setTitle("Ошибка");
             alert.setContentText("Подключение не удалось");
             alert.showAndWait();
@@ -88,7 +83,8 @@ public class Controller {
 
         listFiles.setItems(listOfItems);
 
-        if (!listOfItems.isEmpty()) {
+        if (!listOfItems.isEmpty())
+        {
             downloadButton.setVisible(true);
             uploadButton.setVisible(true);
         } 
@@ -96,10 +92,12 @@ public class Controller {
 
     private void fillListView(String path) {
 
-        try {
+        try
+        {
             listOfItems.clear();
             listOfItems.addAll(ftpService.listNameOfFiles(path));
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             alert.setTitle("Ошибка");
             alert.setContentText("Не удалось получить список файлов");
             alert.showAndWait();
@@ -110,7 +108,8 @@ public class Controller {
 
     }
 
-    private void openSelectedDirectory() {
+    private void openSelectedDirectory()
+    {
         // получаем модель выбора элементов
         listFilesSelectionModel = listFiles.getSelectionModel();
         // устанавливаем слушатель для отслеживания изменений
@@ -119,7 +118,8 @@ public class Controller {
     }
 
     @FXML
-    public void showFiles() {
+    public void showFiles()
+    {
         fillListView();
         openSelectedDirectory();
     }
@@ -188,10 +188,26 @@ public class Controller {
     }
 
     @FXML
-    public void getLogs()
+    public void getLogs() throws IOException
     {
-        successAlert.setTitle("Логи");
-        successAlert.setContentText(Logger.getInstance().getLogs().toString());
-        successAlert.showAndWait();
+        Stage logeStag = new Stage();
+        logeStag.setScene(new Scene(FXMLLoader.load(getClass().getResource("LogsForm.fxml"))));
+        logeStag.setTitle("Логи");
+        logeStag.show();
+
+//        successAlert.setTitle("Логи");
+//        successAlert.setContentText(Logger.getInstance().getLogs().toString());
+//        successAlert.showAndWait();
+    }
+
+    public void disconnecting(ActionEvent actionEvent) throws IOException
+    {
+        ftpService.disconnect();
+        Logger.getInstance().clearLogs();
+        Parent root = FXMLLoader.load(getClass().getResource("StartConfig.fxml"));
+        ClientForm.primaryStage.close();
+        ClientForm.primaryStage.setScene(new Scene(root));
+        ClientForm.primaryStage.setTitle("Вход на сервер");
+        ClientForm.primaryStage.show();
     }
 }

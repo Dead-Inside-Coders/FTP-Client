@@ -28,7 +28,7 @@ public class CommandBuilder
 
     public boolean isConnected() { return connected; }
 
-    public void disconnect(){ this.connected=false; }
+    public void disconnect(){ logger.addEventToLogs("Disconnected"); this.connected=false; }
 
 
 

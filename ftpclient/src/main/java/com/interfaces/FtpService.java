@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface FtpService {
+public interface FtpService
+{
+    boolean isConnect();
     public boolean connect(String hostAddress, String login, String password) throws IOException;
     public void disconnect() throws IOException;
     public List<String> listNameOfFiles() throws IOException;

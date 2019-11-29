@@ -1,6 +1,8 @@
 package com.application;
 
 import com.apacheftp.FtpClient;
+import com.interfaces.FtpService;
+import com.ownftp.MyFtpClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,25 +21,21 @@ public class StartController
     @FXML
     private PasswordField password;
 
-    private InputData inputData;
 
+    private FtpService ftpClient = MyFtpClient.getInstance();
     @FXML
     private void connect(ActionEvent event) throws Exception
     {
-        inputData = InputData.getInstance();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String serverText = server.getText();
         String userText = user.getText();
         String passwordText = password.getText();
 
-        if(!serverText.equals("") && !userText.equals("") && !passwordText.equals(""))
+        if(!serverText.isEmpty() && !userText.isEmpty() && !passwordText.isEmpty())
         {
-            if(new FtpClient().connect(serverText,userText,passwordText))
+            if(ftpClient.connect(serverText,userText,passwordText))
             {
-                inputData.setServerdate(serverText);
-                inputData.setUserdate(userText);
-                inputData.setPasswordate(passwordText);
                 Parent root = FXMLLoader.load(getClass().getResource("Config.fxml"));
                 ClientForm.primaryStage.close();
                 ClientForm.primaryStage.setScene(new Scene(root));
@@ -57,7 +55,6 @@ public class StartController
             alert.setContentText("Вы должны заполнить все поля");
             alert.showAndWait();
         }
-
 
     }
 

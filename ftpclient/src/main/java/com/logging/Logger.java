@@ -3,7 +3,8 @@ package com.logging;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Logger {
+public class Logger
+{
 
     private static Logger instance = null;
 

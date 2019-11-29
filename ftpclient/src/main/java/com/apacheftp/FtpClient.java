@@ -13,9 +13,18 @@ import java.util.List;
 public class FtpClient implements FtpService {
 
     private FTPSClient ftpsClient;
+    private Logger logger = Logger.getInstance();
+
+    private boolean connect;
 
     public FtpClient() {
-        ftpsClient= new FTPSClient();
+        ftpsClient = new FTPSClient();
+    }
+
+    @Override
+    public boolean isConnect()
+    {
+        return connect;
     }
 
     public boolean connect(String hostAddress, String login, String password) throws IOException {
@@ -27,11 +36,12 @@ public class FtpClient implements FtpService {
         if (ftpsClient.login(login, password))
         {
             System.out.println("Соединение установлено!");
-            Logger.getInstance().addEventToLogs("Соединение установлено!");
+            logger.addEventToLogs("Соединение установлено!");
+            connect = true;
             return true;
         }
         else {
-            Logger.getInstance().addEventToLogs("Неверные данные для входа!");
+            logger.addEventToLogs("Неверные данные для входа!");
             throw new IOException("Неверные данные для входа!");
         }
     }
@@ -39,18 +49,18 @@ public class FtpClient implements FtpService {
     public void disconnect() throws IOException {
         ftpsClient.logout();
         ftpsClient.disconnect();
-        Logger.getInstance().addEventToLogs("Соединение разорвано!");
+        logger.addEventToLogs("Соединение разорвано!");
         System.out.println("Соединение разорвано!");
     }
 
     public List<String> listNameOfFiles() throws IOException  {
 
-        Logger.getInstance().addEventToLogs("Получен список файлов");
+        logger.addEventToLogs("Получен список файлов");
         return new ArrayList<>(Arrays.asList(ftpsClient.listNames()));
     }
 
     public List<String> listNameOfFiles(String path) throws IOException  {
-        Logger.getInstance().addEventToLogs("Получен список файлов");
+        logger.addEventToLogs("Получен список файлов");
         return new ArrayList<>(Arrays.asList(ftpsClient.listNames(path)));
     }
 
@@ -76,12 +86,12 @@ public class FtpClient implements FtpService {
             boolean success = ftpsClient.completePendingCommand();
             if (!success) throw new IOException();
 
-            Logger.getInstance().addEventToLogs("Файл: "+remoteFilePath + " Успешно скачан в папку: "+savePath);
+            logger.addEventToLogs("Файл: "+remoteFilePath + " Успешно скачан в папку: "+savePath);
         }
         catch (IOException ex)
         {
-            Logger.getInstance().addEventToLogs("Ошибка при скачивании файла: "+remoteFilePath);
-            Logger.getInstance().addEventToLogs(ex.getMessage());
+            logger.addEventToLogs("Ошибка при скачивании файла: "+remoteFilePath);
+            logger.addEventToLogs(ex.getMessage());
             ex.printStackTrace(); }
 
     }
@@ -98,10 +108,10 @@ public class FtpClient implements FtpService {
 
         InputStream inputStream = new FileInputStream(firstLocalFile);
 
-        Logger.getInstance().addEventToLogs("Файл начал скачиваться");
+        logger.addEventToLogs("Файл начал скачиваться");
 
         if (ftpsClient.storeFile(firstRemoteFile, inputStream))
-            Logger.getInstance().addEventToLogs("Файл "+firstRemoteFile+" успешно скачан");
+            logger.addEventToLogs("Файл "+firstRemoteFile+" успешно скачан");
 
         inputStream.close();
     }

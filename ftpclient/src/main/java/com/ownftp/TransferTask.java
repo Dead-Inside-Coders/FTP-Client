@@ -15,12 +15,14 @@ public class TransferTask {
     private BufferedOutputStream out;
     Logger logger = Logger.getInstance();
 
-    public TransferTask(InputStream in, OutputStream out) {
+    public TransferTask(InputStream in, OutputStream out)
+    {
         this.in = new BufferedInputStream(in);
         this.out = new BufferedOutputStream(out);
     }
 
-    public void startTransfer() {
+    public void startTransfer()
+    {
         byte[] buff = new byte[4096];
         int read;
 
