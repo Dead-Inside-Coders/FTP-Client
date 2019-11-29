@@ -31,5 +31,5 @@ public class ClientForm extends Application {
         primaryStage = stage;
         primaryStage.show();
     }
-}
+} 
 

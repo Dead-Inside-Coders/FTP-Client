@@ -3,6 +3,7 @@ package com.application;
 import com.apacheftp.FtpClient;
 import com.interfaces.FtpService;
 import com.logging.Logger;
+import com.ownftp.MyFtpClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,7 +53,7 @@ public class Controller {
     {
         inputData = InputData.getInstance();
 
-        ftpService = new FtpClient();
+        ftpService = new MyFtpClient();
 
         alert = new Alert(Alert.AlertType.ERROR);
         successAlert = new Alert(Alert.AlertType.INFORMATION);

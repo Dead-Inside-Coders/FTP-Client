@@ -2,9 +2,7 @@ package com.ownftp;
 
 import com.interfaces.FtpService;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +64,22 @@ public class MyFtpClient implements FtpService {
 
     @Override
     public void downloadSingleFile(String remoteFilePath, String savePath) {
+            if(!commandBuilder.isConnected()) return;
 
+            String fileR = remoteFilePath;
+            if(fileR==null) return;
+            File fileL=new File(savePath);
+
+            try {
+                TransferTask trf=new TransferTask(
+                        commandBuilder.download(fileR),
+                        new FileOutputStream(fileL));
+
+                trf.startTransfer();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
     }
 
     @Override

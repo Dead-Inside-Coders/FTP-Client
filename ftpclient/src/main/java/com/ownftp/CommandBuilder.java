@@ -117,6 +117,46 @@ public class CommandBuilder
         }
     }
 
+
+    public InputStream download(String file){
+        InputStream in=null;
+        if(this.type!=Type.I) if(!setMode(Type.I)) return in;
+
+        Socket sock=PASV();
+        if(sock==null) return null;
+
+        try {
+            String log=command("RETR "+file);
+
+            if(log.startsWith("125") || log.startsWith("150") || log.startsWith("350"))
+                in=sock.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return in;
+    }
+
+    public OutputStream upload(String absPath){
+
+        OutputStream out=null;
+        if(this.type!=Type.I && !setMode(Type.I)) return out;
+
+        Socket sock=PASV();
+        if(sock==null) return null;
+
+        try {
+            String log=command("STOR "+absPath);
+
+            if(log.startsWith("125") || log.startsWith("150"))
+                out=sock.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
     private String parseLine(String line){
         return line.substring(line.lastIndexOf("; ")+2);
     }
@@ -174,7 +214,6 @@ public class CommandBuilder
     {
         while(this.in.ready()) logger.addEventToLogs("recv: "+this.in.readLine()); //secure clearing
         this.out.write(new String(cmd.getBytes(), StandardCharsets.UTF_8)+"\r\n");
-        System.out.println(new String(cmd.getBytes(), StandardCharsets.UTF_8)+"\r\n");
         this.out.flush();
         logger.addEventToLogs("send: "+cmd);
 
