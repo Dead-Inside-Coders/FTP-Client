@@ -11,7 +11,7 @@ public class MyFtpClient implements FtpService {
 
     private Socket sock;
     private final int PORT = 21;
-    CommandBuilder commandBuilder = CommandBuilder.getInstance();
+    private CommandBuilder commandBuilder = CommandBuilder.getInstance();
 
     @Override
     public boolean connect(String hostAddress, String login, String password) throws IOException {
