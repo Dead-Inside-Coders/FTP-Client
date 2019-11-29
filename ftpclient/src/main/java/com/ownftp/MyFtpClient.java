@@ -22,7 +22,6 @@ public class MyFtpClient implements FtpService {
 
             Socket socket = new Socket(hostAddress, PORT);
 
-
             read =new BufferedReader(new InputStreamReader(socket.getInputStream()));
             read.readLine();
 
@@ -84,6 +83,24 @@ public class MyFtpClient implements FtpService {
 
     @Override
     public void uploadSingleFile(String uploadPath) throws IOException {
+        if(!commandBuilder.isConnected()) return;
 
+        String[] array = uploadPath.split("\\\\");
+
+        String absPath = array[array.length-1];
+
+        File file=new File(uploadPath);
+
+        try {
+            TransferTask trf=new TransferTask(
+                    new FileInputStream(file),
+                    commandBuilder.upload(absPath)
+                    );
+
+            trf.startTransfer();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
