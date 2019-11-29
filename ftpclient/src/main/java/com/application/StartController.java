@@ -1,6 +1,7 @@
 package com.application;
 
 import com.apacheftp.FtpClient;
+import com.ownftp.MyFtpClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +34,7 @@ public class StartController
 
         if(!serverText.equals("") && !userText.equals("") && !passwordText.equals(""))
         {
-            if(new FtpClient().connect(serverText,userText,passwordText))
+            if(new MyFtpClient().connect(serverText,userText,passwordText))
             {
                 inputData.setServerdate(serverText);
                 inputData.setUserdate(userText);
