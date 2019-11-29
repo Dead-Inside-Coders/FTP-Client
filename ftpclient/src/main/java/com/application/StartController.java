@@ -1,6 +1,6 @@
 package com.application;
 
-import com.apacheftp.FtpClient;
+
 import com.interfaces.FtpService;
 import com.ownftp.MyFtpClient;
 import javafx.event.ActionEvent;
