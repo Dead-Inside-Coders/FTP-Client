@@ -117,7 +117,7 @@ public class FtpClient implements FtpService {
     }
 
     @Override
-    public boolean deleteFile(String path) throws IOException {
+    public boolean deleteFile(String path){
         return false;
     }
 }

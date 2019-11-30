@@ -12,6 +12,6 @@
       <Button fx:id="logsButton" layoutX="486.0" layoutY="362.0" mnemonicParsing="false" onAction="#getLogs" prefHeight="39.0" prefWidth="92.0" text="Логи" />
       <Button fx:id="uploadButton" layoutX="195.0" layoutY="365.0" mnemonicParsing="false" onAction="#uploadFileToServer" prefHeight="39.0" prefWidth="171.0" text="Загрузить файл на сервер" visible="false" />
       <Button fx:id="DisconnectId" layoutX="525.0" layoutY="14.0" mnemonicParsing="false" onAction="#disconnecting" prefHeight="25.0" prefWidth="78.0" text="disconnect" />
-      <Button fx:id="delButton" layoutX="400.0" layoutY="362.0" mnemonicParsing="false" onAction="#deleteFile" prefHeight="39.0" prefWidth="78.0" text="Удалить" />
+      <Button fx:id="delButton" layoutX="400.0" layoutY="362.0" mnemonicParsing="false" onAction="#deleteFile" prefHeight="39.0" prefWidth="78.0" text="Удалить" visible="false" />
    </children>
 </AnchorPane>

@@ -32,6 +32,9 @@ public class Controller {
     // Кнопка загрузки файлов на сервер
     @FXML
     private Button uploadButton;
+    // Кнопка удаления файлов с сервера
+    @FXML
+    private Button delButton;
     // Папка, куда скачиваются файлы с FTP
     private String savePath;
     //Список файлов, которые добавляются в ListView
@@ -86,6 +89,7 @@ public class Controller {
         {
             downloadButton.setVisible(true);
             uploadButton.setVisible(true);
+            delButton.setVisible(true);
         } 
     }
 
