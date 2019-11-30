@@ -115,4 +115,9 @@ public class FtpClient implements FtpService {
 
         inputStream.close();
     }
+
+    @Override
+    public boolean deleteFile(String path) throws IOException {
+        return false;
+    }
 }

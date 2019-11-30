@@ -1,6 +1,5 @@
 package com.application;
 
-import com.apacheftp.FtpClient;
 import com.interfaces.FtpService;
 import com.logging.Logger;
 import com.ownftp.MyFtpClient;
@@ -209,5 +208,15 @@ public class Controller {
         ClientForm.primaryStage.setScene(new Scene(root));
         ClientForm.primaryStage.setTitle("Вход на сервер");
         ClientForm.primaryStage.show();
+    }
+
+    public void deleteFile(ActionEvent actionEvent)
+    {
+        String selectedItem = listFilesSelectionModel.getSelectedItem();
+        if(ftpService.deleteFile(selectedItem))
+        {
+            successAlert.setContentText("Файл успешено удален");
+            successAlert.showAndWait();
+        }
     }
 }

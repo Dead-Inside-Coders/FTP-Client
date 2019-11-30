@@ -55,7 +55,6 @@ public class StartController
             alert.setContentText("Вы должны заполнить все поля");
             alert.showAndWait();
         }
-
     }
 
 }

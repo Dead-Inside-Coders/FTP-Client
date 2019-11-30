@@ -243,6 +243,21 @@ public class CommandBuilder
         // while(this.in.ready()) logger.addEventToLogs("recv: "+this.in.readLine()); //secure clearing
         return str==null ? "" : str;
     }
+    public boolean deleteFile(String filePath)
+    {
+        try
+        {
+           // if(!command("RMD "+filePath).startsWith("250")) return false;
+             if(!command("DELE "+filePath).startsWith("250")) return false;
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        logger.addEventToLogs("Файл: "+filePath +" успешно удален");
+        return true;
+    }
 
 
     private enum Type {

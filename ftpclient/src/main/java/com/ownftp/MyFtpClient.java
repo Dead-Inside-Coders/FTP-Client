@@ -4,7 +4,6 @@ import com.interfaces.FtpService;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyFtpClient implements FtpService
@@ -120,4 +119,11 @@ public class MyFtpClient implements FtpService
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean deleteFile(String path)
+    {
+        return commandBuilder.deleteFile(path);
+    }
+
 }

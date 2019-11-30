@@ -13,4 +13,5 @@ public interface FtpService
     public List<String> listNameOfFiles(String path) throws IOException;
     public void downloadSingleFile(String remoteFilePath, String savePath);
     public void uploadSingleFile(String uploadPath) throws IOException;
+    boolean deleteFile(String path);
 }
