@@ -21,12 +21,11 @@ public class StartController
     @FXML
     private PasswordField password;
 
-
     private FtpService ftpClient = MyFtpClient.getInstance();
+
     @FXML
     private void connect(ActionEvent event) throws Exception
     {
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String serverText = server.getText();
         String userText = user.getText();
