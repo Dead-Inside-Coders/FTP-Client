@@ -10,16 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public class Controller {
 
@@ -35,6 +33,9 @@ public class Controller {
     // Кнопка удаления файлов с сервера
     @FXML
     private Button delButton;
+    // Кнопкал для переименования файла на сервере
+    @FXML
+    private Button renameButton;
     // Папка, куда скачиваются файлы с FTP
     private String savePath;
     //Список файлов, которые добавляются в ListView
@@ -44,7 +45,7 @@ public class Controller {
     // Объект класса операций с файлами
     private FtpService ftpService;
     // Error Alert
-    private Alert alert;
+    private Alert errorAlert;
     // Information Alert
     private Alert successAlert;
 
@@ -56,15 +57,15 @@ public class Controller {
     private void init()
     {
         ftpService =  MyFtpClient.getInstance();
-        alert = new Alert(Alert.AlertType.ERROR);
+        errorAlert = new Alert(Alert.AlertType.ERROR);
         successAlert = new Alert(Alert.AlertType.INFORMATION);
         listOfItems = FXCollections.observableArrayList();
 
         if(!ftpService.isConnect())
         {
-            alert.setTitle("Ошибка");
-            alert.setContentText("Подключение не удалось");
-            alert.showAndWait();
+            errorAlert.setTitle("Ошибка");
+            errorAlert.setContentText("Подключение не удалось");
+            errorAlert.showAndWait();
         }
     }
 
@@ -77,9 +78,9 @@ public class Controller {
              
             listOfItems.addAll(ftpService.listNameOfFiles());
         } catch (Exception ex) {
-            alert.setTitle("Ошибка");
-            alert.setContentText("Не удалось получить список файлов");
-            alert.showAndWait();
+            errorAlert.setTitle("Ошибка");
+            errorAlert.setContentText("Не удалось получить список файлов");
+            errorAlert.showAndWait();
             return;
         }
 
@@ -90,6 +91,7 @@ public class Controller {
             downloadButton.setVisible(true);
             uploadButton.setVisible(true);
             delButton.setVisible(true);
+            renameButton.setVisible(true);
         } 
     }
 
@@ -101,9 +103,9 @@ public class Controller {
             listOfItems.addAll(ftpService.listNameOfFiles(path));
         } catch (Exception ex)
         {
-            alert.setTitle("Ошибка");
-            alert.setContentText("Не удалось получить список файлов");
-            alert.showAndWait();
+            errorAlert.setTitle("Ошибка");
+            errorAlert.setContentText("Не удалось получить список файлов");
+            errorAlert.showAndWait();
             return;
         }
 
@@ -137,9 +139,9 @@ public class Controller {
             chooseSavePath();
         }
         catch (NullPointerException ex) {
-            alert.setTitle("Ошибка");
-            alert.setContentText("Выберите скачиваемый файл");
-            alert.showAndWait();
+            errorAlert.setTitle("Ошибка");
+            errorAlert.setContentText("Выберите скачиваемый файл");
+            errorAlert.showAndWait();
             return;
         }
 
@@ -156,9 +158,9 @@ public class Controller {
         }
         else
         {
-            alert.setTitle("Ошибка скачивания");
-            alert.setContentText("Такой файл уже существет");
-            alert.showAndWait();
+            errorAlert.setTitle("Ошибка скачивания");
+            errorAlert.setContentText("Такой файл уже существет");
+            errorAlert.showAndWait();
         }
     }
 
@@ -177,9 +179,9 @@ public class Controller {
         }
         catch (IOException | NullPointerException ex)
         {
-            alert.setTitle("Ошибка");
-            alert.setContentText("Не удалось загрузить файл на сервер");
-            alert.showAndWait();
+            errorAlert.setTitle("Ошибка");
+            errorAlert.setContentText("Не удалось загрузить файл на сервер");
+            errorAlert.showAndWait();
         }
     }
 
@@ -197,10 +199,6 @@ public class Controller {
         logeStag.setScene(new Scene(FXMLLoader.load(getClass().getResource("LogsForm.fxml"))));
         logeStag.setTitle("Логи");
         logeStag.show();
-
-//        successAlert.setTitle("Логи");
-//        successAlert.setContentText(Logger.getInstance().getLogs().toString());
-//        successAlert.showAndWait();
     }
 
     public void disconnecting(ActionEvent actionEvent) throws IOException
@@ -217,10 +215,46 @@ public class Controller {
     public void deleteFile(ActionEvent actionEvent)
     {
         String selectedItem = listFilesSelectionModel.getSelectedItem();
-        if(ftpService.deleteFile(selectedItem))
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Подтверждение");
+        alert.setContentText("Вы уверены, что хотите удалить файл: " + selectedItem);
+        Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == ButtonType.OK)
         {
-            successAlert.setContentText("Файл успешено удален");
-            successAlert.showAndWait();
+            if(ftpService.deleteFile(selectedItem))
+            {
+                successAlert.setContentText("Файл успешено удален");
+                successAlert.showAndWait();
+            }
+            else
+            {
+                errorAlert.setContentText("При удалении файла произошла ошибка");
+                errorAlert.showAndWait();
+            }
+        }
+    }
+
+    public void renameFile(ActionEvent actionEvent)
+    {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Rename");
+        dialog.setHeaderText("Enter new name:");
+        dialog.setContentText("New name:");
+
+        Optional<String> result = dialog.showAndWait();
+        String selectedItem = listFilesSelectionModel.getSelectedItem();
+        if(result.isPresent())
+        {
+            if(ftpService.rename(selectedItem,result.get()))
+            {
+                successAlert.setContentText("Файл успешено переименован");
+                successAlert.showAndWait();
+            }
+            else
+            {
+                errorAlert.setContentText("При переименовании файла произошла ошибка");
+                errorAlert.showAndWait();
+            }
         }
     }
 }

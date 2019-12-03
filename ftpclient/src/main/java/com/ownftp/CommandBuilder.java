@@ -247,7 +247,7 @@ public class CommandBuilder
     {
         try
         {
-           // if(!command("RMD "+filePath).startsWith("250")) return false;
+           // if(!command("RMD "+filePath).startsWith("250")) return false; //Удаление деректории
              if(!command("DELE "+filePath).startsWith("250")) return false;
 
         } catch (IOException e)
@@ -256,6 +256,22 @@ public class CommandBuilder
             return false;
         }
         logger.addEventToLogs("Файл: "+filePath +" успешно удален");
+        return true;
+    }
+
+    public boolean rename(String prevPath, String newPath){
+        try
+        {
+            if(!command("RNFR "+prevPath).startsWith("350")) return false;
+            if(!command("RNTO "+newPath).startsWith("250")) return false;
+        }
+        catch (IOException e)
+        {
+            logger.addEventToLogs("Ошибка при переименовании файла: "+prevPath);
+            e.printStackTrace();
+            return false;
+        }
+        logger.addEventToLogs("Файл: "+prevPath+" Успешно переименнован в "+newPath);
         return true;
     }
 

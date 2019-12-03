@@ -10,8 +10,8 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField fx:id="server" layoutX="171.0" layoutY="54.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите данные сервера " text="localhost" />
-      <TextField fx:id="user" layoutX="171.0" layoutY="108.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите имя пользователя" text="ftp" />
+      <TextField fx:id="server" layoutX="171.0" layoutY="54.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите данные сервера " text="s27.host-food.ru" />
+      <TextField fx:id="user" layoutX="171.0" layoutY="108.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите имя пользователя" text="h143441" />
       <Label layoutX="95.0" layoutY="14.0" text="Подключение к серверу ">
          <font>
             <Font size="18.0" />
@@ -32,6 +32,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="171.0" layoutY="165.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите пароль" text="ftp" />
+      <PasswordField fx:id="password" layoutX="171.0" layoutY="165.0" prefHeight="25.0" prefWidth="213.0" promptText="Введите пароль" text="20dazupo" />
    </children>
 </AnchorPane>

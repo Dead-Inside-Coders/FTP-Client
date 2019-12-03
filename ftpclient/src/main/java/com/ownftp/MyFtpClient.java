@@ -126,4 +126,19 @@ public class MyFtpClient implements FtpService
         return commandBuilder.deleteFile(path);
     }
 
+    public boolean rename(String filePath ,String newName)
+    {
+        return commandBuilder.rename(filePath,newPathBuilder(filePath,newName));
+    }
+
+    private String newPathBuilder(String filePath,String newName)
+    {
+        if(filePath.split("/").length == 1) return newName;
+        else
+        {
+            StringBuilder newPath = new StringBuilder(filePath);
+            newPath.delete(filePath.lastIndexOf("/"),filePath.length());
+            return newPath.append(newName).toString();
+        }
+    }
 }

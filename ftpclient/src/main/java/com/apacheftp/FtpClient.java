@@ -120,4 +120,7 @@ public class FtpClient implements FtpService {
     public boolean deleteFile(String path){
         return false;
     }
+
+    @Override
+    public boolean rename(String filePath, String newName) { return false; }
 }
