@@ -72,6 +72,7 @@ public class MyFtpClient implements FtpService
         return commandBuilder.isConnected() ? commandBuilder.getFiles("/") : null;
     }
 
+
     @Override
     public List<String> listNameOfFiles(String path) throws IOException {
         return commandBuilder.isConnected() ? commandBuilder.getFiles(path) : null;
@@ -98,19 +99,20 @@ public class MyFtpClient implements FtpService
     }
 
     @Override
-    public void uploadSingleFile(String uploadPath) throws IOException {
+    public void uploadSingleFile(String uploadPath,String currentPath) throws IOException
+    {
         if(!commandBuilder.isConnected()) return;
 
         String[] array = uploadPath.split("\\\\");
 
-        String absPath = array[array.length-1];
+        String name = array[array.length-1];
 
-        File file=new File(uploadPath);
+        File file = new File(uploadPath);
 
         try {
             TransferTask trf=new TransferTask(
                     new FileInputStream(file),
-                    commandBuilder.upload(absPath)
+                    commandBuilder.upload(currentPath + name)
                     );
 
             trf.startTransfer();
@@ -137,7 +139,7 @@ public class MyFtpClient implements FtpService
         else
         {
             StringBuilder newPath = new StringBuilder(filePath);
-            newPath.delete(filePath.lastIndexOf("/"),filePath.length());
+            newPath.delete(filePath.lastIndexOf("/")+1,filePath.length());
             return newPath.append(newName).toString();
         }
     }

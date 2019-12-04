@@ -96,7 +96,7 @@ public class FtpClient implements FtpService {
 
     }
 
-    public void uploadSingleFile(String uploadPath) throws IOException {
+    public void uploadSingleFile(String uploadPath,String currentPath) throws IOException {
 
         // create input stream from file and use it in a storeFile method
 
@@ -108,10 +108,10 @@ public class FtpClient implements FtpService {
 
         InputStream inputStream = new FileInputStream(firstLocalFile);
 
-        logger.addEventToLogs("Файл начал скачиваться");
+        logger.addEventToLogs("Файл начал загружен");
 
-        if (ftpsClient.storeFile(firstRemoteFile, inputStream))
-            logger.addEventToLogs("Файл "+firstRemoteFile+" успешно скачан");
+        if (ftpsClient.storeFile(currentPath+firstRemoteFile, inputStream))
+            logger.addEventToLogs("Файл "+firstRemoteFile+" успешно загружен");
 
         inputStream.close();
     }

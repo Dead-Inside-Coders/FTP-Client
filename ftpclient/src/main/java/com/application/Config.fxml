@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="405.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.Controller">
    <children>
-      <ListView fx:id="listFiles" focusTraversable="false" layoutX="23.0" layoutY="104.0" prefHeight="238.0" prefWidth="575.0" />
+      <ListView fx:id="listFiles" focusTraversable="false" layoutX="23.0" layoutY="104.0" onMouseClicked="#chooseItem" prefHeight="238.0" prefWidth="575.0" />
       <Button fx:id="showButton" layoutX="23.0" layoutY="40.0" mnemonicParsing="false" onAction="#showFiles" prefHeight="49.0" prefWidth="114.0" text="Показать файлы" />
       <Button fx:id="downloadButton" layoutX="23.0" layoutY="352.0" mnemonicParsing="false" onAction="#downloadSelectedFile" prefHeight="39.0" prefWidth="106.0" text="Скачать файл" />
       <Button fx:id="logsButton" layoutX="506.0" layoutY="352.0" mnemonicParsing="false" onAction="#getLogs" prefHeight="39.0" prefWidth="92.0" text="Логи" />

@@ -11,12 +11,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileAttribute;
 import java.util.Optional;
 
 public class Controller {
@@ -48,6 +52,8 @@ public class Controller {
     private Alert errorAlert;
     // Information Alert
     private Alert successAlert;
+    //
+    private String currentPath;
 
 
     public Controller() {
@@ -71,13 +77,15 @@ public class Controller {
 
     private void fillListView() {
 
-        try {
+        try
+        {
             // bug fix
             listOfItems.clear();
-            listOfItems.clear();
-             
+            listFiles.setItems(null);
             listOfItems.addAll(ftpService.listNameOfFiles());
-        } catch (Exception ex) {
+            currentPath ="/";
+        }
+        catch (Exception ex) {
             errorAlert.setTitle("Ошибка");
             errorAlert.setContentText("Не удалось получить список файлов");
             errorAlert.showAndWait();
@@ -118,8 +126,8 @@ public class Controller {
         // получаем модель выбора элементов
         listFilesSelectionModel = listFiles.getSelectionModel();
         // устанавливаем слушатель для отслеживания изменений
-        listFilesSelectionModel.selectedItemProperty()
-                .addListener((changed, oldValue, newValue) -> fillListView(newValue));
+//        listFilesSelectionModel.selectedItemProperty()
+//              .addListener((changed, oldValue, newValue) -> fillListView(newValue));
     }
 
     @FXML
@@ -151,7 +159,7 @@ public class Controller {
 
         if(file.createNewFile()) // if possible create a such file
         {
-            ftpService.downloadSingleFile(selectedItem, Path);
+            ftpService.downloadSingleFile(currentPath+selectedItem, Path);
             successAlert.setTitle("Инфо");
             successAlert.setContentText("Файл успешно скачан"); 
             successAlert.showAndWait();
@@ -172,10 +180,11 @@ public class Controller {
 
         try
         {
-            ftpService.uploadSingleFile(file.getPath());
+            ftpService.uploadSingleFile(file.getPath(),currentPath);
             successAlert.setTitle("Инфо");
             successAlert.setContentText("Файл успешно загружен");
             successAlert.showAndWait();
+            fillListView(currentPath);
         }
         catch (IOException | NullPointerException ex)
         {
@@ -221,10 +230,11 @@ public class Controller {
         Optional<ButtonType> option = alert.showAndWait();
         if (option.get() == ButtonType.OK)
         {
-            if(ftpService.deleteFile(selectedItem))
+            if(ftpService.deleteFile(currentPath+selectedItem))
             {
                 successAlert.setContentText("Файл успешено удален");
                 successAlert.showAndWait();
+                fillListView(currentPath);
             }
             else
             {
@@ -245,8 +255,9 @@ public class Controller {
         String selectedItem = listFilesSelectionModel.getSelectedItem();
         if(result.isPresent())
         {
-            if(ftpService.rename(selectedItem,result.get()))
+            if(ftpService.rename(currentPath+selectedItem,result.get()))
             {
+                fillListView(currentPath);
                 successAlert.setContentText("Файл успешено переименован");
                 successAlert.showAndWait();
             }
@@ -257,4 +268,24 @@ public class Controller {
             }
         }
     }
+
+    public void chooseItem(MouseEvent mouseEvent)
+    {
+        if(mouseEvent.getButton() == MouseButton.PRIMARY)
+        {
+                String item = listFilesSelectionModel.getSelectedItem();
+
+                System.out.println("Мы выбрали айтем " + item);
+            if (mouseEvent.getClickCount()==2)
+            {
+                if (!new File(item).isFile())//надо что то тут придумать
+                {
+                    currentPath +=item+"/";
+                    fillListView(item);
+                    System.out.println("Мы зашли в деректорю файла " + item);
+                }
+            }
+        }
+    }
+
 }
