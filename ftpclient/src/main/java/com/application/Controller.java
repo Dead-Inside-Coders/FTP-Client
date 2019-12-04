@@ -108,6 +108,7 @@ public class Controller {
         try
         {
             listOfItems.clear();
+            listFiles.setItems(null);
             listOfItems.addAll(ftpService.listNameOfFiles(path));
         } catch (Exception ex)
         {
@@ -253,9 +254,11 @@ public class Controller {
 
         Optional<String> result = dialog.showAndWait();
         String selectedItem = listFilesSelectionModel.getSelectedItem();
+        int endIndex = selectedItem.contains(".") ? selectedItem.lastIndexOf(".") : selectedItem.length();
+
         if(result.isPresent())
         {
-            if(ftpService.rename(currentPath+selectedItem,result.get()))
+            if(ftpService.rename(currentPath+selectedItem,result.get()+new StringBuilder(selectedItem).delete(0,endIndex).toString()))
             {
                 fillListView(currentPath);
                 successAlert.setContentText("Файл успешено переименован");
@@ -269,7 +272,7 @@ public class Controller {
         }
     }
 
-    public void chooseItem(MouseEvent mouseEvent)
+    public void chooseItem(MouseEvent mouseEvent) throws IOException
     {
         if(mouseEvent.getButton() == MouseButton.PRIMARY)
         {
@@ -278,14 +281,19 @@ public class Controller {
                 System.out.println("Мы выбрали айтем " + item);
             if (mouseEvent.getClickCount()==2)
             {
-                if (!new File(item).isFile())//надо что то тут придумать
+                if (item!= null)//isDirectory костыль fucking
                 {
                     currentPath +=item+"/";
-                    fillListView(item);
+                    fillListView(currentPath);
                     System.out.println("Мы зашли в деректорю файла " + item);
                 }
             }
         }
+    }
+
+    private boolean isDirectory(String item) throws IOException
+    {
+        return !ftpService.listNameOfFiles(item).isEmpty();//Не работает,вернее работатет но не так как надо
     }
 
 }
