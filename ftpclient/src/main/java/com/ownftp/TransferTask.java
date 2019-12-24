@@ -28,9 +28,9 @@ public class TransferTask {
 
         try {
             read = this.in.read(buff);
-
+            logger.addEventToLogs("Передача файла...");
             while (read != -1) {
-                logger.addEventToLogs("Передача файла...");
+
                 this.out.write(buff, 0, read);
                 read = this.in.read(buff);
             }

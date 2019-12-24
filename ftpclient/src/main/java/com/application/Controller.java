@@ -278,14 +278,12 @@ public class Controller {
         {
                 String item = listFilesSelectionModel.getSelectedItem();
 
-                System.out.println("Мы выбрали айтем " + item);
             if (mouseEvent.getClickCount()==2)
             {
                 if (item!= null)//isDirectory костыль fucking
                 {
                     currentPath +=item+"/";
                     fillListView(currentPath);
-                    System.out.println("Мы зашли в деректорю файла " + item);
                 }
             }
         }
@@ -293,7 +291,7 @@ public class Controller {
 
     private boolean isDirectory(String item) throws IOException
     {
-        return !ftpService.listNameOfFiles(item).isEmpty();//Не работает,вернее работатет но не так как надо
+        return ftpService.listNameOfFiles(item).size() > 0;//Не работает,вернее работатет но не так как надо
     }
 
 }
